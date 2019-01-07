@@ -1,8 +1,13 @@
 $(document).ready(function() {
+	
+	//assign x or o classes
 	var x = 'x';
 	var o = 'o';
+	
+	//track number of turns to determine if tie game
 	var turns = 0;
 
+	//ids for the spots
 	var spot1 = $('#spot1');
 	var spot2 = $('#spot2');
 	var spot3 = $('#spot3');
@@ -12,8 +17,11 @@ $(document).ready(function() {
 	var spot7 = $('#spot7');
 	var spot8 = $('#spot8');
 	var spot9 = $('#spot9');
+	
+	//run this when a spot is clicked
 	$('#board li').on('click', function() {
 	
+	//alert if spot has already been clicked
 	if($(this).hasClass('disable')){
 		alert('This spot is already filled');
 		
@@ -29,7 +37,7 @@ $(document).ready(function() {
 				$(this).addClass('disable x');
 		}
 		
-		//check for O row
+		//check for O's
 		if(spot1.hasClass('o')&&
 		spot2.hasClass('o')&&
 		spot3.hasClass('o') ||
@@ -62,13 +70,14 @@ $(document).ready(function() {
 		spot5.hasClass('o')&&
 		spot3.hasClass('o')
 				){
+					//alert if O is winner
 					alert('Winner: O');
 					$('#board li').text('+');
 					$('#board li').removeClass('disable');
 					$('#board li').removeClass('o');
 					$('#board li').removeClass('x');
 					turns=0;
-					console.log('turns after o '+turns);
+					
 		//check for X's			
 				} else if(spot1.hasClass('x')&&
 			spot2.hasClass('x')&&
@@ -102,21 +111,23 @@ $(document).ready(function() {
 			spot5.hasClass('x')&&
 				spot3.hasClass('x')
 				){
+					//alert if X is winner
 					alert('Winner: X');
 					$('#board li').text('+');
 					$('#board li').removeClass('disable');
 					$('#board li').removeClass('o');
 					$('#board li').removeClass('x');
 					turns=0;
-					console.log('turns after x '+turns);
-				} else if(turns==9){
+				}
+				
+				//alert if Tie Game
+				else if(turns==9){
 					alert('Tie Game');
 					$('#board li').text('+');
 					$('#board li').removeClass('disable');
 					$('#board li').removeClass('o');
 					$('#board li').removeClass('x');
 					turns = 0;
-					console.log('turns after tie '+turns);
 				} //end tie check
 				
 	}); //end on click function
