@@ -1,5 +1,4 @@
-//This is almost identical code to what is in the tutorial on Eduonix
-//Credit: Learn Projects In JavaScript And JQuery Course on Eduonix by []
+//Re-wrote the code with functions to increase stability and readability, in keeping with D.R.Y. principle - Don't Repeat Yourself.
 
 $(document).ready(function() {
 	
@@ -9,17 +8,75 @@ $(document).ready(function() {
 	
 	//track number of turns to determine if tie game
 	var turns = 0;
+	
+	//array of winning spot combos
+	var winArray = [
+		[1,2,3],
+		[4,5,6],
+		[7,8,9],
+		[1,4,7],
+		[2,5,8],
+		[6,3,9],
+		[1,5,9],
+		[3,5,7]
+	];
+	
+	//builds the spot ids on-the-fly
+	var currentSpot;
+	
+	//checks if the right number of spots match
+	var spotMatch = 0;
+	
+	//sets number of required spot matches
+	var winNum = 3;
+	
+	//*****************REUSABLE FUNCTIONS************
+	
+	//check for winning combo
+	function winCheck(pSymbol) {
+		
+		//outer loop through winArray
+		for(i=0;i<winArray.length;i++){
 
-	//ids for the spots
-	var spot1 = $('#spot1');
-	var spot2 = $('#spot2');
-	var spot3 = $('#spot3');
-	var spot4 = $('#spot4');
-	var spot5 = $('#spot5');
-	var spot6 = $('#spot6');
-	var spot7 = $('#spot7');
-	var spot8 = $('#spot8');
-	var spot9 = $('#spot9');
+			 for(j=0;j<winArray[i].length;j++){
+
+				//create the spot id to check
+				currentSpot = String('#spot'+winArray[i][j]);
+
+				if ($(currentSpot).hasClass(pSymbol)) {
+
+						spotMatch++;
+					
+						if (spotMatch == winNum) {
+
+							return true;
+						}//end spotmatch 
+						
+				} //end if hasClass
+				else {
+						spotMatch = 0;
+						break;
+						}
+				
+			} //end inner for loop
+			
+		}//end of outer loop
+		return false;
+		
+	} //end of winCheck
+	
+	function winAlert(pSymbol){
+		alert(pSymbol);
+		$('#board li').text('+');
+		$('#board li').removeClass('disable');
+		$('#board li').removeClass('o');
+		$('#board li').removeClass('x');
+		turns=0;
+	} //end of winAlert
+	
+	
+	//*************END REUSABLE FUNCTIONS**********
+	
 	
 	//run this when a spot is clicked
 	$('#board li').on('click', function() {
@@ -41,108 +98,31 @@ $(document).ready(function() {
 		}
 		
 		//check for O's
-		if(spot1.hasClass('o')&&
-		spot2.hasClass('o')&&
-		spot3.hasClass('o') ||
-			
-		spot4.hasClass('o')&&
-		spot5.hasClass('o')&&
-			spot6.hasClass('o') ||
-				
-		spot7.hasClass('o')&&
-		spot8.hasClass('o')&&
-		spot9.hasClass('o') ||
-				
-		spot1.hasClass('o')&&
-		spot4.hasClass('o')&&
-		spot7.hasClass('o') ||
-				
-		spot2.hasClass('o')&&
-		spot5.hasClass('o')&&
-		spot8.hasClass('o') ||
-				
-		spot6.hasClass('o')&&
-		spot9.hasClass('o')&&
-		spot3.hasClass('o') ||
-				
-		spot1.hasClass('o')&&
-		spot5.hasClass('o')&&
-		spot9.hasClass('o') ||
-			
-		spot7.hasClass('o')&&
-		spot5.hasClass('o')&&
-		spot3.hasClass('o')
-				){
+		if(winCheck('o')){
 					//alert if O is winner
-					alert('Winner: O');
-					$('#board li').text('+');
-					$('#board li').removeClass('disable');
-					$('#board li').removeClass('o');
-					$('#board li').removeClass('x');
-					turns=0;
+					winAlert('Winner: O');
 					
-		//check for X's			
-				} else if(spot1.hasClass('x')&&
-			spot2.hasClass('x')&&
-			spot3.hasClass('x') ||
 			
-			spot4.hasClass('x')&&
-			spot5.hasClass('x')&&
-				spot6.hasClass('x') ||
-				
-			spot7.hasClass('x')&&
-			spot8.hasClass('x')&&
-				spot9.hasClass('x') ||
-				
-			spot1.hasClass('x')&&
-			spot4.hasClass('x')&&
-				spot7.hasClass('x') ||
-				
-			spot2.hasClass('x')&&
-			spot5.hasClass('x')&&
-				spot8.hasClass('x') ||
-				
-			spot6.hasClass('x')&&
-			spot9.hasClass('x')&&
-				spot3.hasClass('x') ||
-				
-			spot1.hasClass('x')&&
-			spot5.hasClass('x')&&
-				spot9.hasClass('x') ||
-				
-			spot7.hasClass('x')&&
-			spot5.hasClass('x')&&
-				spot3.hasClass('x')
-				){
+				} //end o check
+		
+				//if O isn't the winner, check for X's				
+				else if(winCheck('x')){
+					
 					//alert if X is winner
-					alert('Winner: X');
-					$('#board li').text('+');
-					$('#board li').removeClass('disable');
-					$('#board li').removeClass('o');
-					$('#board li').removeClass('x');
-					turns=0;
-				}
+					winAlert('Winner: X');
+				}//end x check
 				
 				//alert if Tie Game
 				else if(turns==9){
-					alert('Tie Game');
-					$('#board li').text('+');
-					$('#board li').removeClass('disable');
-					$('#board li').removeClass('o');
-					$('#board li').removeClass('x');
-					turns = 0;
+					winAlert('Tie Game');
+					
 				} //end tie check
 				
 	}); //end on click function
 	
 	//reset handler
 	$('#reset').on('click',function(){
-		$('#board li').text('+');
-		$('#board li').removeClass('disable');
-		$('#board li').removeClass('o');
-		$('#board li').removeClass('x');
-		turns=0;
-		
+		winAlert('Game Reset');		
 	});//end of reset handler
 	
 }); //end of code
