@@ -1,3 +1,6 @@
+//This is almost identical code to what is in the tutorial on Eduonix
+//Credit: Learn Projects In JavaScript And JQuery Course on Eduonix by []
+
 $(document).ready(function() {
 	
 	//assign x or o classes
