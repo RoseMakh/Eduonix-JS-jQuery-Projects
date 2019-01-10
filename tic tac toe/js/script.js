@@ -1,3 +1,7 @@
+/*Branches that Are Available on GitHub Now:
+*    1) D.R.Y. Version
+*/
+
 //This is almost identical code to what is in the tutorial on Eduonix
 //Credit: Learn Projects In JavaScript And JQuery Course on Eduonix by []
 
